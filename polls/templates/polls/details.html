@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question {{q_id}}</title>
+    <style>
+        .ques{
+            font-size: 42px;
+            text-align: center;
+            margin-top: 2%;
+            margin-bottom: 5%;
+        }
+        .onechoice{
+            margin-top: 2%;
+        }
+    </style>
+</head>
+<body>
+    <div class="ques">
+        Q.{{question.question_text}}
+    </div>
+
+    <form action="{% url 'vote' q_id %}" method="post">
+        {% csrf token %}
+        {% for choice in question.choice_set.all %}
+        <div class="oncechoice">
+        <input type="radio" name="choice" id="choice {{forloop.counter}}" value="{{choice.choice_id}}">
+        <label for="choice {{forloop.counter}}">
+            {{choice.choice_text}}
+        </label><br>
+    </div>
+    {% endfor %}
+    </form>
+</body>
+</html>

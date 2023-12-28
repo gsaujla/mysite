@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polls By Gurmehar</title>
+    <style>
+        .body{
+            font-family: sans-serif;
+           }
+        .ques{
+            text-align: center;
+            font-size: 28px;
+            
+        }
+        .polls-head{
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 2%;
+        }
+    </style>
+</head>
+<body>
+    {% if questionList %}
+    
+        <div class="polls-head">POLLS</div>
+        {% for q in questionList %}
+        <div class="ques">
+         Q.{{q.id}} {{q.question_text}}</div>
+        {% endfor %}
+    
+    {% else %}
+    <div class="sorry">Sorry! No Poles Available right now</div>
+    {% endif %}
+</body>
+</html>
