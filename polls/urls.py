@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import firsthello, q_detail, results, vote , index
+from . import views
 
-urlpatterns=[
-    path('',index,name="first5"),
-    path('<int:q_id>/', q_detail,name = "only_qid"),
-    path('<int:q_id>/results/', results,name = "only_qid"),
-    path('<int:q_id>/vote/', vote ,name = "only_qid"),
-
+app_name = "polls"
+urlpatterns = [
+    path("", views.IndexView.as_view(), name="index"),
+    path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+    path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
+    path("<int:pk>/vote/", views.vote, name="vote"),
 ]

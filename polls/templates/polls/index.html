@@ -4,33 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polls By Gurmehar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito&family=Teko:wght@300&display=swap" rel="stylesheet">
+    {% load static %}
+
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
     <style>
+         nav{
+           margin-left: 5px;
+           font-family: 'Teko', sans-serif;
+           font-size: 30px;
+        }
         .body{
             font-family: sans-serif;
+            margin: 0;
            }
         .ques{
             text-align: center;
             font-size: 28px;
-            
+            font-family: 'Nunito', sans-serif;
         }
         .polls-head{
+            
+            font-family: 'Fjalla One', sans-serif;
             text-align: center;
-            font-size: 48px;
+            
             margin-bottom: 2%;
+            font-size: 84px;
         }
+        a{
+            color: black;
+        }
+        @media(min-width : 1200px){
+         main{
+            display: inline-flex;
+            width: 100%;
+            
+            }
+        .polls-head{
+            width: 50%;
+            height: 44.5rem;
+            
+        }
+        .quest-wrapper{
+            margin-top: -40px;
+            border-radius: 5px;
+            height: max-content;
+            background-color: #d6ccc2;
+            width: 50%;
+           height: 44.5rem;
+           padding: 0;
+           
+        }
+        .quest-wrap{
+            margin-top: 17rem;
+            text-align: justify;
+            
+        }
+        .pl{
+            margin-top: 19rem;
+        }
+       
+
+    }
     </style>
 </head>
 <body>
+    <nav>
+        GSAUJLA
+    </nav>
+    <main>
+        
+    <div class="polls-head">
+        
+        <div class="pl"></div>Q.POLLS</div></div>
+    <div class="quest-wrapper">
+        <div class="quest-wrap">
     {% if questionList %}
     
-        <div class="polls-head">POLLS</div>
         {% for q in questionList %}
         <div class="ques">
-         Q.{{q.id}} {{q.question_text}}</div>
+            <a href="{% url 'polls:detail' q.id %}" style="text-decoration: none;">
+         {{q.question_text}}</a></div>
         {% endfor %}
     
     {% else %}
     <div class="sorry">Sorry! No Poles Available right now</div>
     {% endif %}
+</div>
+</div>
+</main>
 </body>
 </html>

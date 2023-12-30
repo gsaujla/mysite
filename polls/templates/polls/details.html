@@ -4,33 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question {{q_id}}</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
     <style>
+       
+        
+        .wrap{
+            border-radius: 20px;
+            margin: auto;
+            text-align: center;
+            width: 40%;
+            background-color: #d6ccc2;
+        }
         .ques{
             font-size: 42px;
             text-align: center;
             margin-top: 2%;
             margin-bottom: 5%;
+            font-family: 'Satisfy', cursive;
         }
         .onechoice{
             margin-top: 2%;
         }
+        form{
+            margin-top: 8rem;
+            width: 90%;
+            
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .options{
+            display: inline-flex;
+            margin-bottom: 2rem;
+        }
+        .btn{
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: 2px;
+            border: 2px solid black;
+        }
+       
+
+
     </style>
 </head>
 <body>
-    <div class="ques">
-        Q.{{question.question_text}}
+    
+     <div class="wrap">
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+        {% csrf_token %}
+        
+        <fieldset>
+            
+            <legend><div class="ques">{{ question.question_text }}</div></legend>
+            <div class="options">
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            {% for choice in question.choice_set.all %}
+            <div class="option">
+                <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br></div>
+            {% endfor %}
+        </div>
+        </fieldset>
+        <input type="submit" value="Vote" class="btn">
+    
+        </form>
     </div>
-
-    <form action="{% url 'vote' q_id %}" method="post">
-        {% csrf token %}
-        {% for choice in question.choice_set.all %}
-        <div class="oncechoice">
-        <input type="radio" name="choice" id="choice {{forloop.counter}}" value="{{choice.choice_id}}">
-        <label for="choice {{forloop.counter}}">
-            {{choice.choice_text}}
-        </label><br>
-    </div>
-    {% endfor %}
-    </form>
 </body>
 </html>

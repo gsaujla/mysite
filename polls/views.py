@@ -1,29 +1,34 @@
-from django.shortcuts import render
-from django.http import HttpResponse, Http404
-from .models import Question
+from django.shortcuts import render , get_object_or_404
+from django.http import  HttpResponseRedirect
+from .models import Question, Choice
+from django.urls import reverse
+from django.views import generic
 # Create your views here.
 
-def firsthello(request):
-   return HttpResponse('Welcome to The Polls Website!')
+class IndexView(generic.ListView):
+    template_name = "polls/index.html"
+    context_object_name = "questionList"
 
-def q_detail(request, q_id):
-   try:
-        question = Question.objects.get(pk=q_id)
-   except Question.DoesNotExist:
-        raise Http404("Question does not exist")
-   return render(request, 'polls/details.html', {"question" : question , "q_id" : q_id})
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by("-when_aksed")[:5]
 
-def results(request, q_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % q_id)
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "polls/details.html"
 
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = "polls/results.html"
 
-def vote(request, q_id):
-    return HttpResponse("You're voting on question %s." % q_id)
-
-def index(request):
-    questionList = Question.objects.order_by("-when_aksed")[:5]
-    context = {
-        "questionList" : questionList
-        }
-    return render(request , 'polls/index.html', context)
+def vote(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    try:
+        voter_choice = question.choice_set.get(pk = request.POST["choice"])
+    except(KeyError, Choice.DoesNotExist):
+        return render(request, "polls/details.html",{"question" : question , "error_messgae" : "You did not select a choice"})
+    else:
+        voter_choice.votes += 1
+        voter_choice.save()
+        return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+        

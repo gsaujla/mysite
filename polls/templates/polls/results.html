@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Q{{question.question_id}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        section{
+            margin-top: 13rem;
+            font-size: 28px;
+        }
+       
+        .choices-class{
+            display: inline-flex;
+            text-align: center;
+        }
+        .choice-wrapper{
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .vote{
+            margin-left: 8px;
+            margin-right: 20px;
+            
+        }
+        .vote-again{
+            text-align: center;
+        }
+        .sec-wrap{
+            border-radius: 10px;
+            background-color: #d6ccc2;
+            width: 35%;
+            margin: auto;
+            height: 18rem;
+            }
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        button{
+            background-color: transparent;
+            border-radius: 3px;
+            border: 1px solid black; 
+            padding-top: 4px;
+            padding-bottom: 4px;
+            font-size: 14px;
+        }
+        .head{
+            
+            text-align: center;
+            font-family: 'Satisfy', cursive;
+            font-size: 42px;
+        }
+        .hn{
+            padding-top: 3rem;
+        }
+        .home{
+            font-size: 14px;
+            text-align: right;
+            margin-right: 15px;
+            margin-top: -25px;
+            margin-bottom: 2rem;
+        }
+        .hme{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="sec-wrap">
+            <div class="hn">
+                <div class="home"><a href="{% url 'polls:index'  %}" class="hme">&larr; HOME </a></div>
+    <div class="head">
+        <q>{{question.question_text}}</q>
+    </div>
+    <div class="choice-wrapper">
+    <div class="choices-class">
+        {% for choice in question.choice_set.all %} 
+        <div class="i-choice">
+            {{choice.choice_text}} :
+        </div>
+        <div class="vote">
+            {{choice.votes}}
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+    
+
+    <div class="vote-again">
+        <button><a href="{% url 'polls:vote' question.id %}">Vote Again</a></button>
+    </div>
+</div></div>
+</section>
+</body>
+</html>
